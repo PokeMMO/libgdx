@@ -432,7 +432,7 @@ public class RemoteInput implements Runnable, Input {
 	}
 
 	@Override
-	public void setOnscreenKeyboardVisible (boolean visible) {
+	public void setOnscreenKeyboardVisible (boolean visible, OnscreenKeyboardType type) {
 	}
 
 	@Override

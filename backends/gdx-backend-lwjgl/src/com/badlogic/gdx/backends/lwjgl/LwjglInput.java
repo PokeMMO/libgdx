@@ -275,7 +275,7 @@ final public class LwjglInput implements Input {
 	}
 
 	@Override
-	public void setOnscreenKeyboardVisible (boolean visible) {
+	public void setOnscreenKeyboardVisible (boolean visible, OnscreenKeyboardType type) {
 
 	}
 
