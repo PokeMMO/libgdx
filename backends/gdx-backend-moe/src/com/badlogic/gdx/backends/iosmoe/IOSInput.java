@@ -26,7 +26,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Pool;
 
-import android.text.InputType;
 import apple.audiotoolbox.c.AudioToolbox;
 import apple.coregraphics.struct.CGPoint;
 import apple.coregraphics.struct.CGRect;
