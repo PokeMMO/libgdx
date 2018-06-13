@@ -131,6 +131,11 @@ public class MockInput implements Input {
 	}
 
 	@Override
+	public void setOnscreenKeyboardVisible(boolean visible) {
+
+	}
+
+	@Override
 	public void setOnscreenKeyboardVisible(boolean visible, OnscreenKeyboardType type) {
 
 	}

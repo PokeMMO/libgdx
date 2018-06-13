@@ -16,7 +16,6 @@
 
 package com.badlogic.gdx;
 
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.ObjectIntMap;
 
 /** <p>
@@ -658,6 +657,11 @@ public interface Input {
 	 * @param title The title of the text input dialog.
 	 * @param text The message presented to the user. */
 	public void getTextInput (TextInputListener listener, String title, String text, String hint);
+
+	/** Sets the on-screen keyboard visible if available. Will use the Default keyboard type.
+	 * 
+	 * @param visible visible or not */
+	public void setOnscreenKeyboardVisible (boolean visible);
 
 	/** Sets the on-screen keyboard visible if available.
 	 * 
