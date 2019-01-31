@@ -91,10 +91,10 @@ public class AntScriptGenerator {
 				if (!libsDir.mkdirs()) throw new RuntimeException("Couldn't create libs directory '" + libsDir + "'");
 			}
 
-			String buildFileName = "build-" + target.os.toString().toLowerCase() + (target.is64Bit ? "64" : "32") + ".xml";
+			String buildFileName = "build-" + target.os.toString().toLowerCase() + (target.isARM ? "arm" + target.abi : "") + (target.is64Bit ? "64" : "32") + ".xml";
 			if (target.buildFileName != null) buildFileName = target.buildFileName;
 			config.jniDir.child(buildFileName).writeString(buildFile, false);
-			System.out.println("Wrote target '" + target.os + (target.is64Bit ? "64" : "") + "' build script '"
+			System.out.println("Wrote target '" + target.os + (target.isARM ? "arm" + target.abi : "") + (target.is64Bit ? "64" : "") + "' build script '"
 				+ config.jniDir.child(buildFileName) + "'");
 
 			if (!target.excludeFromMasterBuildFile) {
@@ -165,7 +165,7 @@ public class AntScriptGenerator {
 		}
 		if (os == TargetOs.Linux || os == TargetOs.Android) {
 			libPrefix = "lib";
-			libSuffix = (isARM ? "arm" : "") + abi + (is64Bit ? "64" : "") + ".so";
+			libSuffix = (isARM ? "arm" + abi : "") + (is64Bit ? "64" : "") + ".so";
 		}
 		if (os == TargetOs.MacOsX) {
 			libPrefix = "lib";
@@ -187,7 +187,7 @@ public class AntScriptGenerator {
 
 	private String getLibsDirectory (BuildConfig config, BuildTarget target) {
 		String targetName = target.osFileName;
-		if (targetName == null) targetName = target.os.toString().toLowerCase() + (target.is64Bit ? "64" : "32");
+		if (targetName == null) targetName = target.os.toString().toLowerCase() + (target.isARM ? "arm" + target.abi : "") + (target.is64Bit ? "64" : "32");
 		return config.libsDir.child(targetName).path().replace('\\', '/');
 	}
 
@@ -244,10 +244,10 @@ public class AntScriptGenerator {
 		}
 
 		String targetFolder = target.osFileName;
-		if (targetFolder == null) targetFolder = target.os.toString().toLowerCase() + (target.is64Bit ? "64" : "32");
+		if (targetFolder == null) targetFolder = target.os.toString().toLowerCase() + (target.isARM ? "arm" + target.abi : "") + (target.is64Bit ? "64" : "32");
 
 		// replace template vars with proper values
-		template = template.replace("%projectName%", config.sharedLibName + "-" + target.os + "-" + (target.is64Bit ? "64" : "32"));
+		template = template.replace("%projectName%", config.sharedLibName + "-" + target.os + "-" + (target.isARM ? "arm" + target.abi + "-" : "") + (target.is64Bit ? "64" : "32"));
 		template = template.replace("%buildDir%", config.buildDir.child(targetFolder).path().replace('\\', '/'));
 		template = template.replace("%libsDir%", "../" + getLibsDirectory(config, target));
 		template = template.replace("%libName%", libName);
