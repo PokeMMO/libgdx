@@ -94,7 +94,7 @@ public class AntScriptGenerator {
 			String buildFileName = "build-" + target.os.toString().toLowerCase() + (target.isARM ? "arm" + target.abi : "") + (target.is64Bit ? "64" : "32") + ".xml";
 			if (target.buildFileName != null) buildFileName = target.buildFileName;
 			config.jniDir.child(buildFileName).writeString(buildFile, false);
-			System.out.println("Wrote target '" + target.os + (target.isARM ? "arm" + target.abi : "") + (target.is64Bit ? "64" : "") + "' build script '"
+			System.out.println("Wrote target '" + target.os + (target.isARM ? "Arm" + target.abi : "") + (target.is64Bit ? "64" : "32") + "' build script '"
 				+ config.jniDir.child(buildFileName) + "'");
 
 			if (!target.excludeFromMasterBuildFile) {

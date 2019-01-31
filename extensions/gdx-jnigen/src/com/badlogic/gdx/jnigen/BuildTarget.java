@@ -142,7 +142,7 @@ public class BuildTarget {
 
 		if (type == TargetOs.Linux && isARM && abi.equals("") && is64Bit) {
 			// Linux ARM 64-Bit
-			return new BuildTarget(TargetOs.Linux, false, new String[] {"**/*.c"}, new String[0], new String[] {"**/*.cpp"},
+			return new BuildTarget(TargetOs.Linux, true, new String[] {"**/*.c"}, new String[0], new String[] {"**/*.cpp"},
 				new String[0], new String[0], "aarch64-linux-gnu-", "-c -Wall -O2 -fmessage-length=0 -fPIC",
 				"-c -Wall -O2 -fmessage-length=0 -fPIC", "-shared").setARM(isARM, abi);
 		}
