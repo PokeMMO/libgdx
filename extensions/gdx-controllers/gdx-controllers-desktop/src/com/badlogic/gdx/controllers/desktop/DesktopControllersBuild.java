@@ -93,7 +93,7 @@ public class DesktopControllersBuild {
 		mac64.cppFlags += " -x objective-c++";
 		mac64.libraries = "-framework CoreServices -framework Carbon -framework IOKit -framework Cocoa";
 
-		new AntScriptGenerator().generate(buildConfig, win32home, win32, win64, lin32, lin64, mac, mac64);
+		new AntScriptGenerator().generate(buildConfig, win32home, win32, win64, lin32, lin64, linarmgnueabi, linarmgnueabihf, linarm64, mac, mac64);
 //		if (!BuildExecutor.executeAnt("jni/build-macosx32.xml", "-Dhas-compiler=true -v postcompile")) {
 //			throw new Exception("build failed");
 //		}
