@@ -64,6 +64,10 @@ public class SharedLibraryLoader {
 			isMac = false;
 			is64Bit = false;
 		}
+		
+		// Attempt to figure out abi if missing. see https://github.com/bytedeco/javacpp/blob/e51d34a230ad1e076d2158bd6810a6032d4b6d74/src/main/java/org/bytedeco/javacpp/Loader.java#L106
+		if(isARM && !is64Bit && abi.isEmpty() && System.getProperty("sun.boot.library.path", "").toLowerCase().contains("openjdk-armhf"))
+			abi = "gnueabihf";
 	}
 
 	static private final HashSet<String> loadedLibraries = new HashSet();
