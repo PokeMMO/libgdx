@@ -18,7 +18,6 @@ package com.badlogic.gdx.controllers.desktop;
 
 import com.badlogic.gdx.jnigen.AntScriptGenerator;
 import com.badlogic.gdx.jnigen.BuildConfig;
-import com.badlogic.gdx.jnigen.BuildExecutor;
 import com.badlogic.gdx.jnigen.BuildTarget;
 import com.badlogic.gdx.jnigen.NativeCodeGenerator;
 import com.badlogic.gdx.jnigen.BuildTarget.TargetOs;
@@ -66,6 +65,21 @@ public class DesktopControllersBuild {
 		lin64.cppIncludes = linuxSrc;
 		lin64.headerDirs = includes;
 		lin64.libraries = "-lX11";
+		
+		BuildTarget linarmgnueabi = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabi");
+		linarmgnueabi.cppIncludes = linuxSrc;
+		linarmgnueabi.headerDirs = includes;
+		linarmgnueabi.libraries = "-lX11";
+		
+		BuildTarget linarmgnueabihf = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabihf");
+		linarmgnueabihf.cppIncludes = linuxSrc;
+		linarmgnueabihf.headerDirs = includes;
+		linarmgnueabihf.libraries = "-lX11";
+		
+		BuildTarget linarm64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true, true, "");
+		linarm64.cppIncludes = linuxSrc;
+		linarm64.headerDirs = includes;
+		linarm64.libraries = "-lX11";
 
 		BuildTarget mac = BuildTarget.newDefaultTarget(TargetOs.MacOsX, false);
 		mac.cppIncludes = mac64Src;

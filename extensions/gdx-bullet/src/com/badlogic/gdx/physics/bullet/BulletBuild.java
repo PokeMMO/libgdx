@@ -79,6 +79,21 @@ public class BulletBuild {
 		lin64.cExcludes = lin64.cppExcludes = excludes;
 		lin64.headerDirs = headers;
 		lin64.cppFlags += cppFlags;
+		
+		BuildTarget linarmgnueabi = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabi");
+		linarmgnueabi.cExcludes = lin64.cppExcludes = excludes;
+		linarmgnueabi.headerDirs = headers;
+		linarmgnueabi.cppFlags += cppFlags;
+		
+		BuildTarget linarmgnueabihf = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabihf");
+		linarmgnueabihf.cExcludes = lin64.cppExcludes = excludes;
+		linarmgnueabihf.headerDirs = headers;
+		linarmgnueabihf.cppFlags += cppFlags;
+		
+		BuildTarget linarm64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true, true, "");
+		linarm64.cExcludes = lin64.cppExcludes = excludes;
+		linarm64.headerDirs = headers;
+		linarm64.cppFlags += cppFlags;
 
 		BuildTarget mac = BuildTarget.newDefaultTarget(TargetOs.MacOsX, false);
 		mac.cExcludes = mac.cppExcludes = excludes;
@@ -101,7 +116,7 @@ public class BulletBuild {
 		ios.cppFlags += cppFlags;
 		ios.cppFlags += " -stdlib=libc++";
 
-		new AntScriptGenerator().generate(new BuildConfig("gdx-bullet"), win32home, win32, win64, lin32, lin64, mac, mac64, android, ios);
+		new AntScriptGenerator().generate(new BuildConfig("gdx-bullet"), win32home, win32, win64, lin32, lin64, linarmgnueabi, linarmgnueabihf, linarm64, mac, mac64, android, ios);
 		new FileHandle(new File("jni/Application.mk")).writeString("\nAPP_STL := stlport_static\n", true);
 
 		// build natives

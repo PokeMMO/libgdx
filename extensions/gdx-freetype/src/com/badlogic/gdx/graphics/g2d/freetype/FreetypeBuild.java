@@ -83,6 +83,24 @@ public class FreetypeBuild {
 		lin64.cIncludes = sources;
 		lin64.cFlags += "  -DFT2_BUILD_LIBRARY";
 		lin64.cppFlags += "  -DFT2_BUILD_LIBRARY";
+		
+		BuildTarget linarmgnueabi = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabi");
+		linarmgnueabi.headerDirs = headers;
+		linarmgnueabi.cIncludes = sources;
+		linarmgnueabi.cFlags += "  -DFT2_BUILD_LIBRARY";
+		linarmgnueabi.cppFlags += "  -DFT2_BUILD_LIBRARY";
+		
+		BuildTarget linarmgnueabihf = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabihf");
+		linarmgnueabihf.headerDirs = headers;
+		linarmgnueabihf.cIncludes = sources;
+		linarmgnueabihf.cFlags += "  -DFT2_BUILD_LIBRARY";
+		linarmgnueabihf.cppFlags += "  -DFT2_BUILD_LIBRARY";
+		
+		BuildTarget linarm64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true, true, "");
+		linarm64.headerDirs = headers;
+		linarm64.cIncludes = sources;
+		linarm64.cFlags += "  -DFT2_BUILD_LIBRARY";
+		linarm64.cppFlags += "  -DFT2_BUILD_LIBRARY";
 
 		BuildTarget mac = BuildTarget.newDefaultTarget(TargetOs.MacOsX, false);
 		mac.headerDirs = headers;
@@ -111,8 +129,8 @@ public class FreetypeBuild {
 		ios.cppFlags += " -DFT2_BUILD_LIBRARY";
 
 		new NativeCodeGenerator().generate("src", "bin:../../gdx/bin", "jni");
-		new AntScriptGenerator().generate(new BuildConfig("gdx-freetype"), win32home, win32, win64, lin32, lin64, mac, mac64,
-			android, ios);
+		new AntScriptGenerator().generate(new BuildConfig("gdx-freetype"), win32home, win32, win64, lin32, lin64, linarmgnueabi, linarmgnueabihf, linarm64,
+			mac, mac64, android, ios);
 // BuildExecutor.executeAnt("jni/build-windows32home.xml", "-v clean");
 // BuildExecutor.executeAnt("jni/build-windows32home.xml", "-v");
 // BuildExecutor.executeAnt("jni/build.xml", "pack-natives -v");
