@@ -81,17 +81,17 @@ public class BulletBuild {
 		lin64.cppFlags += cppFlags;
 		
 		BuildTarget linarmgnueabi = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabi");
-		linarmgnueabi.cExcludes = lin64.cppExcludes = excludes;
+		linarmgnueabi.cExcludes = linarmgnueabi.cppExcludes = excludes;
 		linarmgnueabi.headerDirs = headers;
 		linarmgnueabi.cppFlags += cppFlags;
 		
 		BuildTarget linarmgnueabihf = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabihf");
-		linarmgnueabihf.cExcludes = lin64.cppExcludes = excludes;
+		linarmgnueabihf.cExcludes = linarmgnueabihf.cppExcludes = excludes;
 		linarmgnueabihf.headerDirs = headers;
 		linarmgnueabihf.cppFlags += cppFlags;
 		
 		BuildTarget linarm64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true, true, "");
-		linarm64.cExcludes = lin64.cppExcludes = excludes;
+		linarm64.cExcludes = linarm64.cppExcludes = excludes;
 		linarm64.headerDirs = headers;
 		linarm64.cppFlags += cppFlags;
 
