@@ -49,8 +49,6 @@ public class GdxBuild {
 		lin32.cppExcludes = excludeCpp;
 		BuildTarget lin64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true);
 		lin64.cppExcludes = excludeCpp;
-		BuildTarget linarmgnueabi = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabi");
-		linarmgnueabi.cppExcludes = excludeCpp;
 		BuildTarget linarmgnueabihf = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabihf");
 		linarmgnueabihf.cppExcludes = excludeCpp;
 		BuildTarget linarm64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true, true, "");
@@ -66,7 +64,7 @@ public class GdxBuild {
 		ios.cppExcludes = new String[] {"android/**"};
 		ios.headerDirs = new String[] {"iosgl"};
 		new AntScriptGenerator().generate(new BuildConfig("gdx", "../target/native", LIBS_DIR, JNI_DIR), mac, mac64, win32home, win32,
-			win64, lin32, lin64, linarmgnueabi, linarmgnueabihf, linarm64, android, ios);
+			win64, lin32, lin64, linarmgnueabihf, linarm64, android, ios);
 
 		// build natives
 		// BuildExecutor.executeAnt("jni/build-windows32home.xml", "-v");

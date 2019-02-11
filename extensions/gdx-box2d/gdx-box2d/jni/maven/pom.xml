@@ -135,7 +135,6 @@
                                 <resource><directory>${basedir}/../../libs/linux32</directory></resource>
                                 <resource><directory>${basedir}/../../libs/linux64</directory></resource>
                                 <resource><directory>${basedir}/../../libs/linuxarm64</directory></resource>
-                                <resource><directory>${basedir}/../../libs/linuxarmgnueabi32</directory></resource>
                                 <resource><directory>${basedir}/../../libs/linuxarmgnueabihf32</directory></resource>
                                 <resource><directory>${basedir}/../../libs/macosx32</directory></resource>
                                 <resource><directory>${basedir}/../../libs/windows32</directory></resource>

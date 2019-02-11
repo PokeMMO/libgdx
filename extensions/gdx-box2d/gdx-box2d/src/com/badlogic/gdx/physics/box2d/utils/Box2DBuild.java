@@ -14,7 +14,6 @@ public class Box2DBuild {
 		BuildTarget win64 = BuildTarget.newDefaultTarget(TargetOs.Windows, true);
 		BuildTarget lin32 = BuildTarget.newDefaultTarget(TargetOs.Linux, false);
 		BuildTarget lin64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true);
-		BuildTarget linarmgnueabi = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabi");
 		BuildTarget linarmgnueabihf = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabihf");
 		BuildTarget linarm64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true, true, "");
 		BuildTarget android = BuildTarget.newDefaultTarget(TargetOs.Android, false);
@@ -22,6 +21,6 @@ public class Box2DBuild {
 		BuildTarget mac64 = BuildTarget.newDefaultTarget(TargetOs.MacOsX, true);
 		BuildTarget ios = BuildTarget.newDefaultTarget(TargetOs.IOS, false);
 		new NativeCodeGenerator().generate("src", "bin" + File.pathSeparator + "../../../gdx/bin", "jni");
-		new AntScriptGenerator().generate(new BuildConfig("gdx-box2d"), win32, win64, lin32, lin64, linarmgnueabi, linarmgnueabihf, linarm64, mac32, mac64, android, ios);		
+		new AntScriptGenerator().generate(new BuildConfig("gdx-box2d"), win32, win64, lin32, lin64, linarmgnueabihf, linarm64, mac32, mac64, android, ios);		
 	}
 }

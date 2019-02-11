@@ -66,11 +66,6 @@ public class DesktopControllersBuild {
 		lin64.headerDirs = includes;
 		lin64.libraries = "-lX11";
 		
-		BuildTarget linarmgnueabi = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabi");
-		linarmgnueabi.cppIncludes = linuxSrc;
-		linarmgnueabi.headerDirs = includes;
-		linarmgnueabi.libraries = "-lX11";
-		
 		BuildTarget linarmgnueabihf = BuildTarget.newDefaultTarget(TargetOs.Linux, false, true, "gnueabihf");
 		linarmgnueabihf.cppIncludes = linuxSrc;
 		linarmgnueabihf.headerDirs = includes;
@@ -93,7 +88,7 @@ public class DesktopControllersBuild {
 		mac64.cppFlags += " -x objective-c++";
 		mac64.libraries = "-framework CoreServices -framework Carbon -framework IOKit -framework Cocoa";
 
-		new AntScriptGenerator().generate(buildConfig, win32home, win32, win64, lin32, lin64, linarmgnueabi, linarmgnueabihf, linarm64, mac, mac64);
+		new AntScriptGenerator().generate(buildConfig, win32home, win32, win64, lin32, lin64, linarmgnueabihf, linarm64, mac, mac64);
 //		if (!BuildExecutor.executeAnt("jni/build-macosx32.xml", "-Dhas-compiler=true -v postcompile")) {
 //			throw new Exception("build failed");
 //		}
