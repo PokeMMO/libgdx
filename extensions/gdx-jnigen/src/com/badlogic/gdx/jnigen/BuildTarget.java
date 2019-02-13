@@ -96,8 +96,7 @@ public class BuildTarget {
 	}
 	
 	/** Legacy compatible addition to specify ARM values */
-	public BuildTarget setARM(boolean isARM, String abi)
-	{
+	public BuildTarget setARM (boolean isARM, String abi) {
 		this.isARM = isARM;
 		this.abi = abi;
 		return this;

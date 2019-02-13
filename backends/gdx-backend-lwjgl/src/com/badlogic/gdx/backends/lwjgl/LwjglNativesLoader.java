@@ -59,7 +59,7 @@ public final class LwjglNativesLoader {
 				nativesDir = loader.extractFile("liblwjgl.dylib", null).getParentFile();
 				if (!LwjglApplicationConfiguration.disableAudio) loader.extractFileTo("openal.dylib", nativesDir);
 			} else if (isLinux) {
-				if(SharedLibraryLoader.isARM) {
+				if (SharedLibraryLoader.isARM) {
 					nativesDir = loader.extractFile(loader.mapLibraryName("lwjgl"), null, "liblwjgl.so").getParentFile();
 					if (!LwjglApplicationConfiguration.disableAudio)
 						loader.extractFileTo(loader.mapLibraryName("openal"), nativesDir, "libopenal.so");
