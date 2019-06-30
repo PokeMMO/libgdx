@@ -14,13 +14,12 @@
  * limitations under the License.
  ******************************************************************************/
 
-
-task runBox2DBuild (type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-    main = "com.badlogic.gdx.physics.box2d.utils.Box2DBuild"
-    standardInput = System.in
+dependencies {
+    compileOnly project(":extensions:gdx-jnigen")
 }
 
-dependencies {
-    compile project(":extensions:gdx-jnigen")
+task jnigen (type:JavaExec) {
+    main = "com.badlogic.gdx.physics.box2d.utils.Box2DBuild"
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
+    args sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
 }

@@ -19,3 +19,9 @@ dependencies {
     compileOnly project(":extensions:gdx-jnigen")
     compileOnly libraries.lwjgl
 }
+
+task jnigen (type:JavaExec) {
+    main = "com.badlogic.gdx.controllers.desktop.DesktopControllersBuild"
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
+    args sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
+}

@@ -28,8 +28,15 @@ import com.badlogic.gdx.jnigen.NativeCodeGenerator;
 
 public class BulletBuild {
 	public static void main (String[] args) throws Exception {
+		String classpath = "bin";
+		if (args.length > 0) {
+			classpath = args[0];
+			for (int x = 1; x < args.length; x++)
+				classpath += File.pathSeparator + args[x];
+		}
+
 		// generate C/C++ code
-		new NativeCodeGenerator().generate("src", "bin", "jni");
+		new NativeCodeGenerator().generate("src", classpath, "jni");
 
 		// Flags to accomodate SWIG generated code
 		String cppFlags = "";

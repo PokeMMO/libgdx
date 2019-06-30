@@ -25,12 +25,12 @@ sourceSets.main.java.srcDirs = [
 ]
 
 dependencies {
-    compile project(":gdx")
-    compile project(":extensions:gdx-jnigen")
+    compileOnly project(":gdx")
+    compileOnly project(":extensions:gdx-jnigen")
 }
 
-task runBulletBuild (type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
+task jnigen (type:JavaExec) {
     main = "com.badlogic.gdx.physics.bullet.BulletBuild"
-    standardInput = System.in
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
+    args sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
 }

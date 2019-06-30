@@ -16,6 +16,8 @@
 
 package com.badlogic.gdx.utils;
 
+import java.io.File;
+
 import com.badlogic.gdx.jnigen.AntScriptGenerator;
 import com.badlogic.gdx.jnigen.BuildConfig;
 import com.badlogic.gdx.jnigen.BuildExecutor;
@@ -30,8 +32,15 @@ public class GdxBuild {
 		String JNI_DIR = "jni";
 		String LIBS_DIR = "libs";
 
+		String classpath = "bin";
+		if (args.length > 0) {
+			classpath = args[0];
+			for (int x = 1; x < args.length; x++)
+				classpath += File.pathSeparator + args[x];
+		}
+
 		// generate C/C++ code
-		new NativeCodeGenerator().generate("src", "bin", JNI_DIR, new String[] {"**/*"}, null);
+		new NativeCodeGenerator().generate("src", classpath, JNI_DIR, new String[] {"**/*"}, null);
 
 		String[] excludeCpp = {"iosgl/**"};
 

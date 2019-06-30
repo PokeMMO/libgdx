@@ -18,3 +18,9 @@ dependencies {
     compileOnly project(":gdx")
     compileOnly project(":extensions:gdx-jnigen")
 }
+
+task jnigen (type:JavaExec) {
+    main = "com.badlogic.gdx.graphics.g2d.freetype.FreetypeBuild"
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
+    args sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
+}

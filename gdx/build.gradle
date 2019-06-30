@@ -38,3 +38,9 @@ test {
         events "passed", "skipped", "failed", "standardOut", "standardError"
     }
 }
+
+task jnigen (type:JavaExec) {
+    main = "com.badlogic.gdx.utils.GdxBuild"
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
+    args sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
+}
