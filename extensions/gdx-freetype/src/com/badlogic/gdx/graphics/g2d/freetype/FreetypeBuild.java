@@ -16,9 +16,6 @@
 
 package com.badlogic.gdx.graphics.g2d.freetype;
 
-import java.io.File;
-import java.util.Arrays;
-
 import com.badlogic.gdx.jnigen.AntScriptGenerator;
 import com.badlogic.gdx.jnigen.BuildConfig;
 import com.badlogic.gdx.jnigen.BuildTarget;
@@ -106,14 +103,7 @@ public class FreetypeBuild {
 		ios.cFlags += " -DFT2_BUILD_LIBRARY";
 		ios.cppFlags += " -DFT2_BUILD_LIBRARY";
 
-		String classpath = "bin:../../gdx/bin";
-		if (args.length > 0) {
-			classpath = args[0];
-			for (int x = 1; x < args.length; x++)
-				classpath += File.pathSeparator + args[x];
-		}
-
-		new NativeCodeGenerator().generate("src", classpath, "jni");
+		new NativeCodeGenerator().generate("src", "bin:../../gdx/bin", "jni");
 		new AntScriptGenerator().generate(new BuildConfig("gdx-freetype"), win32home, win32, win64, lin32, lin64, mac64,
 			android, ios);
 // BuildExecutor.executeAnt("jni/build-windows32home.xml", "-v clean");

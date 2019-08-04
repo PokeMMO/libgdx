@@ -16,8 +16,6 @@
 
 package com.badlogic.gdx.controllers.desktop;
 
-import java.io.File;
-
 import com.badlogic.gdx.jnigen.AntScriptGenerator;
 import com.badlogic.gdx.jnigen.BuildConfig;
 import com.badlogic.gdx.jnigen.BuildExecutor;
@@ -27,14 +25,7 @@ import com.badlogic.gdx.jnigen.BuildTarget.TargetOs;
 
 public class DesktopControllersBuild {
 	public static void main (String[] args) throws Exception {
-		String classpath = "bin";
-		if (args.length > 0) {
-			classpath = args[0];
-			for (int x = 1; x < args.length; x++)
-				classpath += File.pathSeparator + args[x];
-		}
-
-		new NativeCodeGenerator().generate("src/", classpath, "jni/");
+		new NativeCodeGenerator().generate("src/", "bin/", "jni/");
 		BuildConfig buildConfig = new BuildConfig("gdx-controllers-desktop");
 
 		String[] windowsSrc = {"*.cpp", "ois-v1-4svn/src/*.cpp", "ois-v1-4svn/src/win32/*.cpp"};
