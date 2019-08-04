@@ -39,8 +39,26 @@ test {
     }
 }
 
-task jnigen (type:JavaExec) {
-    main = "com.badlogic.gdx.utils.GdxBuild"
-    classpath = sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
-    args sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
+import com.badlogic.gdx.jnigen.BuildTarget
+import com.badlogic.gdx.jnigen.BuildTarget.TargetOs
+import com.badlogic.gdx.jnigen.gradle.JnigenTask
+
+task jnigen (type: JnigenTask) {
+    sharedLibName = "gdx"
+    temporaryDir = "../target/native"
+    all {
+		cppExcludes = ["iosgl/**"]
+    }
+    add(TargetOs.Windows, false)
+    add(TargetOs.Windows, true)
+    add(TargetOs.Linux, false)
+    add(TargetOs.Linux, true)
+    add(TargetOs.Android, false) {
+        linkerFlags += " -llog"
+    }
+    add(TargetOs.MacOsX, true)
+    add(TargetOs.IOS, false) {
+        headerDirs = ["iosgl"]
+        cppExcludes = []
+    }
 }

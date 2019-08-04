@@ -14,21 +14,5 @@
  * limitations under the License.
  ******************************************************************************/
 
-dependencies {
-    compileOnly project(":extensions:gdx-jnigen")
-}
-
-import com.badlogic.gdx.jnigen.BuildTarget
-import com.badlogic.gdx.jnigen.BuildTarget.TargetOs
-import com.badlogic.gdx.jnigen.gradle.JnigenTask
-
-task jnigen (type: JnigenTask) {
-    sharedLibName = "gdx-box2d"
-    add(TargetOs.Windows, false)
-    add(TargetOs.Windows, true)
-    add(TargetOs.Linux, false)
-    add(TargetOs.Linux, true)
-    add(TargetOs.MacOsX, true)
-    add(TargetOs.Android, false)
-    add(TargetOs.IOS, false)
-}
+include ":extensions:gdx-jnigen"
+project(":extensions:gdx-jnigen").projectDir = file("../extensions/gdx-jnigen")
