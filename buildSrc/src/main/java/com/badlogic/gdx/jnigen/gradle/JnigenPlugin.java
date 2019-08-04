@@ -7,8 +7,8 @@ import org.gradle.api.Project;
  * @author Desu
  */
 public class JnigenPlugin implements Plugin<Project> {
-    @Override
-    public void apply(Project project) {
-        project.getTasks().create("jnigen", JnigenTask.class);
-    }
+	@Override
+	public void apply(Project project) {
+		project.getTasks().create("jnigen", JnigenTask.class);
+	}
 }

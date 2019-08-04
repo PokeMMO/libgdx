@@ -47,7 +47,7 @@ task jnigen (type: JnigenTask) {
     sharedLibName = "gdx"
     temporaryDir = "../target/native"
     all {
-		cppExcludes = ["iosgl/**"]
+        cppExcludes = ["iosgl/**"]
     }
     add(TargetOs.Windows, false)
     add(TargetOs.Windows, true)

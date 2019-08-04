@@ -26,37 +26,34 @@ public class JnigenTask extends DefaultTask {
 	String temporaryDir = "target";
 	String libsDir = "libs";
 	String jniDir = "jni";
-	
+
 	NativeCodeGeneratorConfig nativeCodeGeneratorConfig = new NativeCodeGeneratorConfig();
 	ArrayList<BuildTarget> targets = new ArrayList<BuildTarget>();
 	Action<BuildTarget> all = null;
 
 	@TaskAction
 	public void run() {
-		if(sharedLibName == null)
+		if (sharedLibName == null)
 			throw new RuntimeException("sharedLibName must be defined");
 
-		//Gradle Tasks are executed in the main project working directory. Supply actual subproject path where necessary.
+		// Gradle Tasks are executed in the main project working directory.
+		// Supply actual subproject path where necessary.
 		String subProjectDir = getProject().getProjectDir().getAbsolutePath() + File.separator;
-		
-		if(DEBUG)
-		{
+
+		if (DEBUG) {
 			System.out.println("subProjectDir " + subProjectDir);
 			System.out.println("sharedLibName " + sharedLibName);
 			System.out.println("nativeCodeGeneratorConfig " + nativeCodeGeneratorConfig);
 		}
-		
-		try
-		{
-			new NativeCodeGenerator().generate(subProjectDir + nativeCodeGeneratorConfig.sourceDir, nativeCodeGeneratorConfig.classpath,
-					subProjectDir + nativeCodeGeneratorConfig.jniDir, nativeCodeGeneratorConfig.includes,
-					nativeCodeGeneratorConfig.excludes);
-		}
-		catch(Exception e)
-		{
+
+		try {
+			new NativeCodeGenerator().generate(subProjectDir + nativeCodeGeneratorConfig.sourceDir,
+					nativeCodeGeneratorConfig.classpath, subProjectDir + nativeCodeGeneratorConfig.jniDir,
+					nativeCodeGeneratorConfig.includes, nativeCodeGeneratorConfig.excludes);
+		} catch (Exception e) {
 			throw new RuntimeException("NativeCodeGenerator threw exception", e);
 		}
-		
+
 		BuildConfig buildConfig = new BuildConfig(sharedLibName, temporaryDir, libsDir, subProjectDir + jniDir);
 		new AntScriptGenerator().generate(buildConfig, targets.toArray(new BuildTarget[0]));
 	}
@@ -78,9 +75,9 @@ public class JnigenTask extends DefaultTask {
 
 		if (all != null)
 			all.execute(target);
-		if(container != null)
+		if (container != null)
 			container.execute(target);
-		
+
 		targets.add(target);
 	}
 
@@ -90,14 +87,14 @@ public class JnigenTask extends DefaultTask {
 		String jniDir = "jni";
 		String[] includes = null;
 		String[] excludes = null;
-		
+
 		public NativeCodeGeneratorConfig() {
 			JavaPluginConvention javaPlugin = getProject().getConvention().getPlugin(JavaPluginConvention.class);
-		    SourceSetContainer sourceSets = javaPlugin.getSourceSets();
-		    SourceSet main = sourceSets.findByName("main");
-		    classpath = main.getRuntimeClasspath().getAsPath();
+			SourceSetContainer sourceSets = javaPlugin.getSourceSets();
+			SourceSet main = sourceSets.findByName("main");
+			classpath = main.getRuntimeClasspath().getAsPath();
 		}
-		
+
 		@Override
 		public String toString() {
 			return "NativeCodeGeneratorConfig[sourceDir=`" + sourceDir + "`, classpath=`" + classpath + "`, jniDir=`"
