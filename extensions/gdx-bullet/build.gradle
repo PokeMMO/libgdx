@@ -25,7 +25,7 @@ sourceSets.main.java.srcDirs = [
 ]
 
 dependencies {
-    compileOnly project(":gdx")
+    compile project(":gdx")
     compileOnly project(":extensions:gdx-jnigen")
 }
 
