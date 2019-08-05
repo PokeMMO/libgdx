@@ -4,8 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.inject.Inject;
+
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.Task;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.api.tasks.TaskAction;
@@ -13,6 +16,7 @@ import org.gradle.api.plugins.JavaPluginConvention;
 
 import com.badlogic.gdx.jnigen.AntScriptGenerator;
 import com.badlogic.gdx.jnigen.BuildConfig;
+import com.badlogic.gdx.jnigen.BuildExecutor;
 import com.badlogic.gdx.jnigen.BuildTarget;
 import com.badlogic.gdx.jnigen.BuildTarget.TargetOs;
 import com.badlogic.gdx.jnigen.NativeCodeGenerator;
@@ -26,19 +30,23 @@ public class JnigenTask extends DefaultTask {
 	String temporaryDir = "target";
 	String libsDir = "libs";
 	String jniDir = "jni";
+	
+	/**
+	 * Gradle Tasks are executed in the main project working directory.
+	 * Supply actual subproject path where necessary.
+	 */
+	String subProjectDir = getProject().getProjectDir().getAbsolutePath() + File.separator;
 
 	NativeCodeGeneratorConfig nativeCodeGeneratorConfig = new NativeCodeGeneratorConfig();
 	ArrayList<BuildTarget> targets = new ArrayList<BuildTarget>();
 	Action<BuildTarget> all = null;
+	
+	Task jnigenBuildTask = null;
 
 	@TaskAction
 	public void run() {
 		if (sharedLibName == null)
 			throw new RuntimeException("sharedLibName must be defined");
-
-		// Gradle Tasks are executed in the main project working directory.
-		// Supply actual subproject path where necessary.
-		String subProjectDir = getProject().getProjectDir().getAbsolutePath() + File.separator;
 
 		if (DEBUG) {
 			System.out.println("subProjectDir " + subProjectDir);
@@ -79,6 +87,14 @@ public class JnigenTask extends DefaultTask {
 			container.execute(target);
 
 		targets.add(target);
+		
+		if (jnigenBuildTask == null)
+			jnigenBuildTask = getProject().getTasks().create("jnigenBuild", JnigenBuildTask.class, this);
+
+		Task builtTargetTask = getProject().getTasks().create("jnigenBuild" + type + (is64Bit ? "64" : ""), JnigenBuildTargetTask.class, this, target);
+		
+		if(!target.excludeFromMasterBuildFile && (!target.requireMacOSToBuild || System.getProperty("os.name").contains("Mac")))
+			jnigenBuildTask.dependsOn(builtTargetTask);
 	}
 
 	class NativeCodeGeneratorConfig {
@@ -100,6 +116,40 @@ public class JnigenTask extends DefaultTask {
 			return "NativeCodeGeneratorConfig[sourceDir=`" + sourceDir + "`, classpath=`" + classpath + "`, jniDir=`"
 					+ jniDir + "`, includes=`" + (includes == null ? "null" : Arrays.toString(includes))
 					+ "`, excludes=`" + (includes == null ? "null" : Arrays.toString(excludes)) + "`]";
+		}
+	}
+	
+	static class JnigenBuildTask extends DefaultTask
+	{
+		JnigenTask parent;
+		@Inject
+		public JnigenBuildTask(JnigenTask parent) {
+			this.parent = parent;
+		}
+		
+		@TaskAction
+		public void run() {
+			BuildExecutor.executeAnt(new File(parent.subProjectDir + parent.jniDir, "build.xml").getPath(), "pack-natives");
+		}
+	}
+	
+	static class JnigenBuildTargetTask extends DefaultTask
+	{
+		JnigenTask parent;
+		BuildTarget target;
+		@Inject
+		public JnigenBuildTargetTask(JnigenTask parent, BuildTarget target) {
+			this.parent = parent;
+			this.target = target;
+		}
+		
+		@TaskAction
+		public void run() {
+			//TODO: Deduplicate the buildFileName defaults
+			String buildFileName = "build-" + target.os.toString().toLowerCase() + (target.is64Bit ? "64" : "32") + ".xml";
+			if (target.buildFileName != null)
+				buildFileName = target.buildFileName;
+			BuildExecutor.executeAnt(new File(parent.subProjectDir + parent.jniDir, buildFileName).getPath(), "-Drelease=true", "clean", "postcompile");
 		}
 	}
 }
