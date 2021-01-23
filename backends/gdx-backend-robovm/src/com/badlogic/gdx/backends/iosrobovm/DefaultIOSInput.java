@@ -474,6 +474,7 @@ public class DefaultIOSInput extends AbstractInput implements IOSInput {
 				preferredInputType = UIKeyboardType.URL;
 				break;
 			case Password: //no equivalent in UIKeyboardType?
+			case VisiblePassword: //no equivalent in UIKeyboardType?
 			default:
 				preferredInputType = UIKeyboardType.Default;
 				break;

@@ -290,11 +290,14 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 			case Password:
 				inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
 				break;
+			case VisiblePassword:
+				inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
+				break;
 			case URI:
 				inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI;
 				break;
 			default:
-				inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
+				inputType = InputType.TYPE_NULL;
 				break;
 		}
 		return inputType;

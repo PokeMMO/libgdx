@@ -786,7 +786,7 @@ public interface Input {
 	public void setOnscreenKeyboardVisible (boolean visible, OnscreenKeyboardType type);
 
 	public enum OnscreenKeyboardType {
-		Default, NumberPad, PhonePad, Email, Password, URI
+		Default, NumberPad, PhonePad, Email, Password, VisiblePassword, URI
 	}
 
 	/** Vibrates for the given amount of time. Note that you'll need the permission

@@ -90,10 +90,11 @@ public class GLSurfaceView20 extends GLSurfaceView {
 				if (sdkVersion >= 16) {
 					/*
 					 * In Jelly Bean, they don't send key events for delete. Instead, they send beforeLength = 1, afterLength = 0. So,
-					 * we'll just simulate what it used to do.
+					 * we'll just simulate what it used to do. Certain keyboards also send this for more than one letter.
 					 */
-					if (beforeLength == 1 && afterLength == 0) {
-						sendDownUpKeyEventForBackwardCompatibility(KeyEvent.KEYCODE_DEL);
+					if (beforeLength > 0 && afterLength == 0) {
+						for(int i = 0; i < beforeLength; i++)
+							sendDownUpKeyEventForBackwardCompatibility(KeyEvent.KEYCODE_DEL);
 						return true;
 					}
 				}
