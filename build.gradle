@@ -42,6 +42,14 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    tasks.withType(Test) {
+        systemProperty 'file.encoding', 'UTF-8'
+    }
 }
 
 configure(subprojects - project(":tests:gdx-tests-android")) {
