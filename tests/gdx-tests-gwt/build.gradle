@@ -55,6 +55,8 @@ gwt {
 
     compiler.strict = true
     compiler.disableCastChecking = true
+    
+    eclipse.gdt.warSrcDir = file("war")
 }
 
 task startHttpServer () {
@@ -123,3 +125,9 @@ task addSource {
 
 tasks.compileGwt.dependsOn(addSource)
 tasks.draftCompileGwt.dependsOn(addSource)
+
+eclipse {
+    classpath {
+        containers += ['com.google.gwt.eclipse.core.GWT_CONTAINER', 'com.gwtplugins.gwt.eclipse.core.GWT_CONTAINER']
+    }
+}

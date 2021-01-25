@@ -17,6 +17,9 @@
 apply from: "gradle/dependencies.gradle"
 
 allprojects {
+    apply plugin: "idea"
+    apply plugin: "eclipse"
+    
     group = 'com.badlogicgames.gdx'
     version = '1.10.0-SNAPSHOT'
 
@@ -53,12 +56,41 @@ allprojects {
 }
 
 configure(subprojects - project(":tests:gdx-tests-android")) {
-    apply plugin: "idea"
     apply plugin: "java"
 
     compileJava {
         options.fork = true
         options.incremental = true
+    }
+}
+
+
+
+subprojects {
+    //This has to be dine in afterEvaluate due to java/android plugin dependency
+    afterEvaluate {
+        eclipse {
+            project {
+                //hide gradle build folders from eclipse
+                resourceFilter {
+                    appliesTo = 'FOLDERS'
+                    type = 'EXCLUDE_ALL'
+                    matcher {
+                        id = 'org.eclipse.ui.ide.multiFilter'
+                        arguments = '1.0-projectRelativePath-matches-true-false-build'
+                    }
+                }
+            }
+            jdt {
+                file {
+                    withProperties { properties ->
+                        def libgdxJdtProperties = new Properties()
+                        libgdxJdtProperties.load(new FileInputStream(".settings/org.eclipse.jdt.libgdx.prefs"))
+                        properties.putAll(libgdxJdtProperties)
+                    }
+                }
+            }
+        }
     }
 }
 
