@@ -67,7 +67,7 @@ configure(subprojects - project(":tests:gdx-tests-android")) {
 
 
 subprojects {
-    //This has to be dine in afterEvaluate due to java/android plugin dependency
+    //This has to be done in afterEvaluate due to java/android plugin dependency
     afterEvaluate {
         eclipse {
             project {
