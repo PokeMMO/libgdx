@@ -91,6 +91,12 @@ subprojects {
                 }
             }
         }
+        //Set all projects to use UTF-8 file encoding for all files
+        eclipseJdt.doLast {
+            File f = new File(projectDir, '.settings/org.eclipse.core.resources.prefs')
+            f.write('eclipse.preferences.version=1\n')
+            f.append('encoding/<project>=UTF-8')
+        }
     }
 }
 
