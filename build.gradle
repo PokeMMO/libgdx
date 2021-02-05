@@ -17,9 +17,6 @@
 apply from: "gradle/dependencies.gradle"
 
 allprojects {
-    apply plugin: "idea"
-    apply plugin: "eclipse"
-    
     group = 'com.badlogicgames.gdx'
     version = '1.10.0-SNAPSHOT'
 
@@ -64,9 +61,10 @@ configure(subprojects - project(":tests:gdx-tests-android")) {
     }
 }
 
+configure(subprojects - project(":backends") - project(":extensions") - project(":tests") - project(":extensions:gdx-box2d-parent")) {
+    apply plugin: "idea"
+    apply plugin: "eclipse"
 
-
-subprojects {
     //This has to be done in afterEvaluate due to java/android plugin dependency
     afterEvaluate {
         eclipse {
