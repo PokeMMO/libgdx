@@ -88,6 +88,11 @@ configure(subprojects - project(":backends") - project(":extensions") - project(
                     }
                 }
             }
+            classpath.file {
+                whenMerged { classpath ->
+                    classpath.entries.findAll { entry -> entry.kind == 'lib' || entry.kind == 'src' }*.exported = true
+                }
+            }
         }
         //Set all projects to use UTF-8 file encoding for all files
         eclipseJdt.doLast {
