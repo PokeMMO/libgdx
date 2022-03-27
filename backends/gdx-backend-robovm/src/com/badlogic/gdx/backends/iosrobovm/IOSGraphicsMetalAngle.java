@@ -20,6 +20,16 @@ import com.badlogic.gdx.AbstractGraphics;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.LifecycleListener;
+import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLContext;
+import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLDrawableColorFormat;
+import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLDrawableDepthFormat;
+import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLDrawableMultisample;
+import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLDrawableStencilFormat;
+import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLKView;
+import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLKViewController;
+import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLKViewControllerDelegate;
+import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLKViewDelegate;
+import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLRenderingAPI;
 import com.badlogic.gdx.backends.iosrobovm.custom.HWMachine;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
@@ -33,24 +43,18 @@ import com.badlogic.gdx.utils.Array;
 import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.foundation.Foundation;
 import org.robovm.apple.foundation.NSObject;
-import org.robovm.apple.glkit.GLKView;
-import org.robovm.apple.glkit.GLKViewController;
-import org.robovm.apple.glkit.GLKViewControllerDelegate;
-import org.robovm.apple.glkit.GLKViewDelegate;
 import org.robovm.apple.glkit.GLKViewDrawableColorFormat;
 import org.robovm.apple.glkit.GLKViewDrawableDepthFormat;
 import org.robovm.apple.glkit.GLKViewDrawableMultisample;
 import org.robovm.apple.glkit.GLKViewDrawableStencilFormat;
-import org.robovm.apple.opengles.EAGLContext;
-import org.robovm.apple.opengles.EAGLRenderingAPI;
 import org.robovm.apple.uikit.UIEdgeInsets;
 import org.robovm.apple.uikit.UIEvent;
 import org.robovm.objc.annotation.Method;
 import org.robovm.rt.bro.annotation.Pointer;
 
-public class IOSGraphics extends AbstractGraphics {
+public class IOSGraphicsMetalAngle extends AbstractGraphics {
 
-	private static final String tag = "IOSGraphics";
+	private static final String tag = "IOSGraphicsMetalAngle";
 
 	IOSApplication app;
 	IOSInput input;
@@ -79,66 +83,66 @@ public class IOSGraphics extends AbstractGraphics {
 	private boolean isFrameRequested = true;
 
 	IOSApplicationConfiguration config;
-	EAGLContext context;
+	MGLContext context;
 	GLVersion glVersion;
-	GLKView view;
-	IOSUIViewController viewController;
+	MGLKView view;
+	IOSUIViewControllerMetalAngle viewController;
 
-	public IOSGraphics (IOSApplication app, IOSApplicationConfiguration config, IOSInput input, boolean useGLES30) {
+	public IOSGraphicsMetalAngle (IOSApplication app, IOSApplicationConfiguration config, IOSInput input, boolean useGLES30) {
 		this.config = config;
 
 		// setup view and OpenGL
 		screenBounds = app.computeBounds();
 
 		if (useGLES30) {
-			context = new EAGLContext(EAGLRenderingAPI.OpenGLES3);
+			context = new MGLContext(MGLRenderingAPI.OpenGLES3);
 			if (context != null)
 				gl20 = gl30 = new IOSGLES30();
 			else
-				Gdx.app.log("IOGraphics", "OpenGL ES 3.0 not supported, falling back on 2.0");
+				Gdx.app.log(tag, "OpenGL ES 3.0 not supported, falling back on 2.0");
 		}
 		if (context == null) {
-			context = new EAGLContext(EAGLRenderingAPI.OpenGLES2);
+			context = new MGLContext(MGLRenderingAPI.OpenGLES2);
 			gl20 = new IOSGLES20();
 			gl30 = null;
 		}
 
 		IOSViewDelegate viewDelegate = new IOSViewDelegate();
-		view = new GLKView(new CGRect(0, 0, screenBounds.width, screenBounds.height), context) {
+		view = new MGLKView(new CGRect(0, 0, screenBounds.width, screenBounds.height), context) {
 			@Method(selector = "touchesBegan:withEvent:")
 			public void touchesBegan (@Pointer long touches, UIEvent event) {
-				IOSGraphics.this.input.onTouch(touches);
+				IOSGraphicsMetalAngle.this.input.onTouch(touches);
 			}
 
 			@Method(selector = "touchesCancelled:withEvent:")
 			public void touchesCancelled (@Pointer long touches, UIEvent event) {
-				IOSGraphics.this.input.onTouch(touches);
+				IOSGraphicsMetalAngle.this.input.onTouch(touches);
 			}
 
 			@Method(selector = "touchesEnded:withEvent:")
 			public void touchesEnded (@Pointer long touches, UIEvent event) {
-				IOSGraphics.this.input.onTouch(touches);
+				IOSGraphicsMetalAngle.this.input.onTouch(touches);
 			}
 
 			@Method(selector = "touchesMoved:withEvent:")
 			public void touchesMoved (@Pointer long touches, UIEvent event) {
-				IOSGraphics.this.input.onTouch(touches);
+				IOSGraphicsMetalAngle.this.input.onTouch(touches);
 			}
 
 			@Override
 			public void draw (CGRect rect) {
-				IOSGraphics.this.draw(this, rect);
+				IOSGraphicsMetalAngle.this.draw(this, rect);
 			}
 
 		};
 		view.setDelegate(viewDelegate);
-		view.setDrawableColorFormat(config.colorFormat);
-		view.setDrawableDepthFormat(config.depthFormat);
-		view.setDrawableStencilFormat(config.stencilFormat);
-		view.setDrawableMultisample(config.multisample);
+		view.setDrawableColorFormat(GLToMetal.from(config.colorFormat));
+		view.setDrawableDepthFormat(GLToMetal.from(config.depthFormat));
+		view.setDrawableStencilFormat(GLToMetal.from(config.stencilFormat));
+		view.setDrawableMultisample(GLToMetal.from(config.multisample));
 		view.setMultipleTouchEnabled(true);
 
-		viewController = app.createUIViewController(this);
+		viewController = new IOSUIViewControllerMetalAngle(app, this);
 		viewController.setView(view);
 		viewController.setDelegate(viewDelegate);
 		viewController.setPreferredFramesPerSecond(config.preferredFramesPerSecond);
@@ -217,7 +221,7 @@ public class IOSGraphics extends AbstractGraphics {
 
 	boolean created = false;
 
-	public void draw (GLKView view, CGRect rect) {
+	public void draw (MGLKView view, CGRect rect) {
 		makeCurrent();
 		// massive hack, GLKView resets the viewport on each draw call, so IOSGLES20
 		// stores the last known viewport and we reset it here...
@@ -231,6 +235,13 @@ public class IOSGraphics extends AbstractGraphics {
 			String vendorString = gl20.glGetString(GL20.GL_VENDOR);
 			String rendererString = gl20.glGetString(GL20.GL_RENDERER);
 			glVersion = new GLVersion(Application.ApplicationType.iOS, versionString, vendorString, rendererString);
+			if (rendererString.contains("Metal")) {
+				Gdx.app.debug(tag, "Using Metal backend.");
+			} else if (rendererString.contains("OpenGL")) {
+				Gdx.app.debug(tag, "Using OpenGL ES backend.");
+			} else {
+				Gdx.app.debug(tag, "Couldn't identify backend. (" + rendererString + ")");
+			}
 
 			updateSafeInsets();
 			app.listener.create();
@@ -263,10 +274,10 @@ public class IOSGraphics extends AbstractGraphics {
 	}
 
 	void makeCurrent () {
-		EAGLContext.setCurrentContext(context);
+		MGLContext.setCurrentContext(context);
 	}
 
-	public void update (GLKViewController controller) {
+	public void update (MGLKViewController controller) {
 		makeCurrent();
 		app.processRunnables();
 		// pause the GLKViewController render loop if we are no longer continuous
@@ -275,9 +286,6 @@ public class IOSGraphics extends AbstractGraphics {
 			viewController.setPaused(true);
 		}
 		isFrameRequested = false;
-	}
-
-	public void willPause (GLKViewController controller, boolean pause) {
 	}
 
 	@Override
@@ -566,20 +574,15 @@ public class IOSGraphics extends AbstractGraphics {
 	public void setSystemCursor (SystemCursor systemCursor) {
 	}
 
-	class IOSViewDelegate extends NSObject implements GLKViewDelegate, GLKViewControllerDelegate {
+	class IOSViewDelegate extends NSObject implements MGLKViewDelegate, MGLKViewControllerDelegate {
 		@Override
-		public void update (GLKViewController controller) {
-			IOSGraphics.this.update(controller);
+		public void update (MGLKViewController controller) {
+			IOSGraphicsMetalAngle.this.update(controller);
 		}
 
 		@Override
-		public void willPause (GLKViewController controller, boolean pause) {
-			IOSGraphics.this.willPause(controller, pause);
-		}
-
-		@Override
-		public void draw (GLKView view, CGRect rect) {
-			IOSGraphics.this.draw(view, rect);
+		public void draw (MGLKView view, CGRect rect) {
+			IOSGraphicsMetalAngle.this.draw(view, rect);
 		}
 	}
 

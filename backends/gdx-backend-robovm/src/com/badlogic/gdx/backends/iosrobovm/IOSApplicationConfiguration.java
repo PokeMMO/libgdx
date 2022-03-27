@@ -16,15 +16,15 @@
 
 package com.badlogic.gdx.backends.iosrobovm;
 
-import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLDrawableColorFormat;
-import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLDrawableDepthFormat;
-import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLDrawableMultisample;
-import com.badlogic.gdx.backends.iosrobovm.bindings.metalangle.MGLDrawableStencilFormat;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.HdpiMode;
 import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import org.robovm.apple.glkit.GLKViewDrawableColorFormat;
+import org.robovm.apple.glkit.GLKViewDrawableDepthFormat;
+import org.robovm.apple.glkit.GLKViewDrawableMultisample;
+import org.robovm.apple.glkit.GLKViewDrawableStencilFormat;
 import org.robovm.apple.uikit.UIRectEdge;
 
 public class IOSApplicationConfiguration {
@@ -36,16 +36,16 @@ public class IOSApplicationConfiguration {
 	public boolean orientationLandscape = true;
 
 	/** the color format, RGBA8888 is the default **/
-	public MGLDrawableColorFormat colorFormat = MGLDrawableColorFormat.RGBA8888;
+	public GLKViewDrawableColorFormat colorFormat = GLKViewDrawableColorFormat.RGBA8888;
 
 	/** the depth buffer format, Format16 is default **/
-	public MGLDrawableDepthFormat depthFormat = MGLDrawableDepthFormat._16;
+	public GLKViewDrawableDepthFormat depthFormat = GLKViewDrawableDepthFormat._16;
 
 	/** the stencil buffer format, None is default **/
-	public MGLDrawableStencilFormat stencilFormat = MGLDrawableStencilFormat.None;
+	public GLKViewDrawableStencilFormat stencilFormat = GLKViewDrawableStencilFormat.None;
 
 	/** the multisample format, None is default **/
-	public MGLDrawableMultisample multisample = MGLDrawableMultisample.None;
+	public GLKViewDrawableMultisample multisample = GLKViewDrawableMultisample.None;
 
 	/** number of frames per second, 60 is default **/
 	public int preferredFramesPerSecond = 60;
@@ -70,9 +70,6 @@ public class IOSApplicationConfiguration {
 	 * is enabled, {@link com.badlogic.gdx.Gdx#gl30} can be used to access it's functionality.
 	 * @deprecated this option is currently experimental and not yet fully supported, expect issues. */
 	@Deprecated public boolean useGL30 = false;
-
-	/** whether Metal should be used as backend in MetalANGLE or not */
-	public boolean useMetal = true;
 
 	/** whether the status bar should be visible or not **/
 	public boolean statusBarVisible = false;
