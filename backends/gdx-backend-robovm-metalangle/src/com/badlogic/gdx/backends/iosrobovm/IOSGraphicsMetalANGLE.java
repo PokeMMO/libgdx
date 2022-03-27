@@ -52,9 +52,9 @@ import org.robovm.apple.uikit.UIEvent;
 import org.robovm.objc.annotation.Method;
 import org.robovm.rt.bro.annotation.Pointer;
 
-public class IOSGraphicsMetalAngle extends AbstractGraphics {
+public class IOSGraphicsMetalANGLE extends AbstractGraphics {
 
-	private static final String tag = "IOSGraphicsMetalAngle";
+	private static final String tag = "IOSGraphicsMetalANGLE";
 
 	IOSApplication app;
 	IOSInput input;
@@ -86,9 +86,9 @@ public class IOSGraphicsMetalAngle extends AbstractGraphics {
 	MGLContext context;
 	GLVersion glVersion;
 	MGLKView view;
-	IOSUIViewControllerMetalAngle viewController;
+	IOSUIViewControllerMetalANGLE viewController;
 
-	public IOSGraphicsMetalAngle (IOSApplication app, IOSApplicationConfiguration config, IOSInput input, boolean useGLES30) {
+	public IOSGraphicsMetalANGLE (IOSApplication app, IOSApplicationConfiguration config, IOSInput input, boolean useGLES30) {
 		this.config = config;
 
 		// setup view and OpenGL
@@ -111,27 +111,27 @@ public class IOSGraphicsMetalAngle extends AbstractGraphics {
 		view = new MGLKView(new CGRect(0, 0, screenBounds.width, screenBounds.height), context) {
 			@Method(selector = "touchesBegan:withEvent:")
 			public void touchesBegan (@Pointer long touches, UIEvent event) {
-				IOSGraphicsMetalAngle.this.input.onTouch(touches);
+				IOSGraphicsMetalANGLE.this.input.onTouch(touches);
 			}
 
 			@Method(selector = "touchesCancelled:withEvent:")
 			public void touchesCancelled (@Pointer long touches, UIEvent event) {
-				IOSGraphicsMetalAngle.this.input.onTouch(touches);
+				IOSGraphicsMetalANGLE.this.input.onTouch(touches);
 			}
 
 			@Method(selector = "touchesEnded:withEvent:")
 			public void touchesEnded (@Pointer long touches, UIEvent event) {
-				IOSGraphicsMetalAngle.this.input.onTouch(touches);
+				IOSGraphicsMetalANGLE.this.input.onTouch(touches);
 			}
 
 			@Method(selector = "touchesMoved:withEvent:")
 			public void touchesMoved (@Pointer long touches, UIEvent event) {
-				IOSGraphicsMetalAngle.this.input.onTouch(touches);
+				IOSGraphicsMetalANGLE.this.input.onTouch(touches);
 			}
 
 			@Override
 			public void draw (CGRect rect) {
-				IOSGraphicsMetalAngle.this.draw(this, rect);
+				IOSGraphicsMetalANGLE.this.draw(this, rect);
 			}
 
 		};
@@ -142,7 +142,7 @@ public class IOSGraphicsMetalAngle extends AbstractGraphics {
 		view.setDrawableMultisample(GLToMetal.from(config.multisample));
 		view.setMultipleTouchEnabled(true);
 
-		viewController = new IOSUIViewControllerMetalAngle(app, this);
+		viewController = new IOSUIViewControllerMetalANGLE(app, this);
 		viewController.setView(view);
 		viewController.setDelegate(viewDelegate);
 		viewController.setPreferredFramesPerSecond(config.preferredFramesPerSecond);
@@ -577,12 +577,12 @@ public class IOSGraphicsMetalAngle extends AbstractGraphics {
 	class IOSViewDelegate extends NSObject implements MGLKViewDelegate, MGLKViewControllerDelegate {
 		@Override
 		public void update (MGLKViewController controller) {
-			IOSGraphicsMetalAngle.this.update(controller);
+			IOSGraphicsMetalANGLE.this.update(controller);
 		}
 
 		@Override
 		public void draw (MGLKView view, CGRect rect) {
-			IOSGraphicsMetalAngle.this.draw(view, rect);
+			IOSGraphicsMetalANGLE.this.draw(view, rect);
 		}
 	}
 

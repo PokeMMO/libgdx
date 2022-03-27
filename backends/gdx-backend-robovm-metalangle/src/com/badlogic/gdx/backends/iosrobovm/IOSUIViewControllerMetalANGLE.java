@@ -12,11 +12,11 @@ import org.robovm.apple.uikit.UIPressesEvent;
 import org.robovm.apple.uikit.UIRectEdge;
 import org.robovm.apple.uikit.UIUserInterfaceIdiom;
 
-public class IOSUIViewControllerMetalAngle extends MGLKViewController {
+public class IOSUIViewControllerMetalANGLE extends MGLKViewController {
 	final IOSApplication app;
-	final IOSGraphicsMetalAngle graphics;
+	final IOSGraphicsMetalANGLE graphics;
 
-	protected IOSUIViewControllerMetalAngle (IOSApplication app, IOSGraphicsMetalAngle graphics) {
+	protected IOSUIViewControllerMetalANGLE (IOSApplication app, IOSGraphicsMetalANGLE graphics) {
 		this.app = app;
 		this.graphics = graphics;
 	}
