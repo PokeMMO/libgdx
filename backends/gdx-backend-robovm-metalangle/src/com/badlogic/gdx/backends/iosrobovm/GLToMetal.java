@@ -1,3 +1,4 @@
+
 package com.badlogic.gdx.backends.iosrobovm;
 
 import org.robovm.apple.glkit.GLKViewDrawableColorFormat;
@@ -23,7 +24,7 @@ public class GLToMetal {
 			throw new IllegalArgumentException();
 		}
 	}
-	
+
 	public static MGLDrawableDepthFormat from (GLKViewDrawableDepthFormat in) {
 		switch (in) {
 		case None:
@@ -36,7 +37,7 @@ public class GLToMetal {
 			throw new IllegalArgumentException();
 		}
 	}
-	
+
 	public static MGLDrawableStencilFormat from (GLKViewDrawableStencilFormat in) {
 		switch (in) {
 		case None:
@@ -47,7 +48,7 @@ public class GLToMetal {
 			throw new IllegalArgumentException();
 		}
 	}
-	
+
 	public static MGLDrawableMultisample from (GLKViewDrawableMultisample in) {
 		switch (in) {
 		case None:
